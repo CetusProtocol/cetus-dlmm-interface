@@ -135,4 +135,4 @@ The SDK is organized into focused modules:
 
 ## License
 
-MIT
+Copyright (c) Cetus Technology Limited
