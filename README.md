@@ -78,6 +78,16 @@ The package includes comprehensive tests for all modules. Run tests with:
 sui move test
 ```
 
+## Rust SDK Module
+
+The repository includes a standalone **Rust SDK** for off-chain swap simulations and price calculations:
+
+- **[`sdk/`](./sdk/README.md)**: Lightweight Rust library implementing DLMM swap pricing logic without blockchain dependencies
+
+The SDK enables developers to simulate swaps, calculate price impact, and analyze liquidity distribution without requiring a connection to the Sui network. See the [SDK README](./sdk/README.md) for detailed documentation and usage examples.
+
+
+
 ## License
 
 Copyright (c) Cetus Technology Limited
