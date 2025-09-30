@@ -7,6 +7,7 @@ A lightweight Rust library for reusing Cetus DLMM swap pricing logic. This imple
 The Cetus Swap SDK provides a standalone implementation of the Dynamic Liquidity Market Maker (DLMM) swap mechanism. It enables accurate swap simulations and price impact calculations without requiring a full blockchain connection.
 
 **Key Features:**
+
 - Pure Rust implementation with minimal dependencies
 - Support for both exact-input and exact-output swaps
 - Multi-bin liquidity traversal with automatic price discovery
@@ -79,11 +80,13 @@ println!("Bins traversed: {}", result.steps.len());
 ### Core Functions
 
 **`Pool::swap_exact_amount_in(amount_in, a2b, timestamp)`**
+
 - Executes a swap with a specified input amount
 - `a2b`: Direction flag (true for token A to B, false for B to A)
 - Returns `SwapResult` with detailed execution information
 
 **`Pool::swap_exact_amount_out(amount_out, a2b, timestamp)`**
+
 - Executes a swap targeting a specific output amount
 - Useful for scenarios where you need an exact output quantity
 - Returns `SwapResult` with execution details
@@ -91,6 +94,7 @@ println!("Bins traversed: {}", result.steps.len());
 ### Swap Result
 
 The `SwapResult` struct provides comprehensive information about swap execution:
+
 - `amount_in`: Total input amount consumed
 - `amount_out`: Total output amount received
 - `fee`: Total swap fees charged
@@ -99,6 +103,7 @@ The `SwapResult` struct provides comprehensive information about swap execution:
 - `is_exceed`: Indicates if liquidity was insufficient
 
 Each step in `steps` includes:
+
 - `bin_id`: The liquidity bin identifier
 - `amount_in` / `amount_out`: Amounts traded in this bin
 - `fee`: Fee charged for this bin
@@ -135,4 +140,4 @@ The SDK is organized into focused modules:
 
 ## License
 
-MIT
+Copyright (c) Cetus Technology Limited
