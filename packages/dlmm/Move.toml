@@ -7,4 +7,4 @@ IntegerMate = { git = "https://github.com/CetusProtocol/integer-mate.git", rev =
 MoveSTL = { git = "https://github.com/CetusProtocol/move-stl.git", rev = "mainnet-v1.3.0", override = true }
 
 [addresses]
-cetusdlmm = "0x0"
+cetusdlmm = "0x5664f9d3fd82c84023870cfbda8ea84e14c8dd56ce557ad2116e0668581a682b"
