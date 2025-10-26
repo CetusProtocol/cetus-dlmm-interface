@@ -7,4 +7,4 @@ MoveSTL = { git = "https://github.com/CetusProtocol/move-stl.git", subdir = "sui
 IntegerMate = { git = "https://github.com/CetusProtocol/integer-mate.git", subdir = "sui", rev = "testnet-v1.23.1", override = true }
 
 [addresses]
-cetusdlmm = "0x0"
+cetusdlmm = "0x17a1f5a8779461ff44e942adf33325cce112c693d6a177ed77f035ca86d1fdb6"
