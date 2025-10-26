@@ -3,8 +3,8 @@ name = "CetusDlmm"
 edition = "2024"
 
 [dependencies]
-MoveSTL = { git = "https://github.com/CetusProtocol/move-stl.git", subdir = "sui", rev = "testnet-v1.23.1", override = true }
-IntegerMate = { git = "https://github.com/CetusProtocol/integer-mate.git", subdir = "sui", rev = "testnet-v1.23.1", override = true }
+MoveSTL = { git = "https://github.com/CetusProtocol/move-stl.git", rev = "testnet-v1.3.0", override = true }
+IntegerMate = { git = "https://github.com/CetusProtocol/integer-mate.git", rev = "testnet-v1.3.0", override = true }
 
 [addresses]
-cetusdlmm = "0x0"
+cetusdlmm = "0xb382224d12558da5f87624765065a8c7e8f5c899d0ee890610e2bb4e8c686be9"
