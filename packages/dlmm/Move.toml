@@ -1,6 +1,7 @@
 [package]
 name = "CetusDlmm"
 edition = "2024"
+published-at = "0x6d32c1be32eefcea933c03dd5cb7c783d1d83f6b30c4d1131d955933747b1701"
 
 [dependencies]
 MoveSTL = { git = "https://github.com/CetusProtocol/move-stl.git", subdir = "sui", rev = "testnet-v1.23.1", override = true }
