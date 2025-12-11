@@ -170,6 +170,20 @@ public fun create_pool_v2<CoinTypeA, CoinTypeB>(
     abort 1
 }
 
+public fun create_pool_v3<CoinTypeA, CoinTypeB>(
+    registry: &mut Registry,
+    bin_step: u16,
+    base_factor: u16,
+    active_id: u32,
+    url: String,
+    config: &GlobalConfig,
+    versioned: &Versioned,
+    clock: &Clock,
+    ctx: &mut TxContext,
+): (CreatePoolReceipt, Pool<CoinTypeA, CoinTypeB>) {
+    abort 1
+}
+
 /// Destroys the pool creation receipt and shares the pool.
 ///
 /// This function validates that the receipt matches the pool and then
