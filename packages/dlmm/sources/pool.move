@@ -1075,6 +1075,39 @@ public fun remove_liquidity_by_percent<CoinTypeA, CoinTypeB>(
     abort 1
 }
 
+/// Removes full range liquidity from a position specified by numerator and denominator.
+///
+/// ## Type Parameters
+/// - `CoinTypeA`: First token type in the pool
+/// - `CoinTypeB`: Second token type in the pool
+///
+/// ## Parameters
+/// - `pool`: Mutable reference to the pool
+/// - `position`: Mutable reference to the position
+/// - `numerator`: Numerator of the percentage
+/// - `denominator`: Denominator of the percentage
+/// - `config`: Global configuration
+/// - `versioned`: Versioned object for compatibility check
+/// - `clk`: Clock for timestamp tracking
+/// - `ctx`: Transaction context
+///
+/// ## Returns
+/// - `(Balance<CoinTypeA>, Balance<CoinTypeB>)`: Token balances returned
+///
+/// ## Events Emitted
+/// - `RemoveLiquidityEvent`: Contains position and liquidity delta information
+public fun remove_full_range_liquidity_by_percent<CoinTypeA, CoinTypeB>(
+    pool: &mut Pool<CoinTypeA, CoinTypeB>,
+    position: &mut Position,
+    numerator: u128,
+    denominator: u128,
+    config: &GlobalConfig,
+    versioned: &Versioned,
+    clk: &Clock,
+    ctx: &TxContext,
+): (Balance<CoinTypeA>, Balance<CoinTypeB>){
+    abort 1
+}
 /// Updates fee and reward tracking for a position.
 ///
 /// This function updates the accumulated fees and rewards for a position
@@ -1194,6 +1227,44 @@ public fun collect_position_reward<CoinTypeA, CoinTypeB, RewardType>(
     abort 1
 }
 
+/// Closes a position and returns all underlying tokens and fees.
+///
+/// This function completely closes a position, removing all liquidity
+/// and returning the underlying tokens plus accumulated fees.
+///
+/// ## Type Parameters
+/// - `CoinTypeA`: First token type in the pool
+/// - `CoinTypeB`: Second token type in the pool
+///
+/// ## Parameters
+/// - `pool`: Mutable reference to the pool
+/// - `position`: Position to close (consumed)
+/// - `config`: Global configuration
+/// - `versioned`: Versioned object for compatibility check
+/// - `clk`: Clock for timestamp tracking
+/// - `ctx`: Transaction context
+///
+/// ## Returns
+/// - `(ClosePositionCert, Balance<CoinTypeA>, Balance<CoinTypeB>, Balance<CoinTypeA>, Balance<CoinTypeB>)`: Certificate and token balances
+///
+/// ## Events Emitted
+/// - `ClosePositionEvent`: Contains position and closure details
+public fun close_position_with_fee<CoinTypeA, CoinTypeB>(
+    pool: &mut Pool<CoinTypeA, CoinTypeB>,
+    position: Position,
+    config: &GlobalConfig,
+    versioned: &Versioned,
+    clk: &Clock,
+    ctx: &TxContext,
+): (
+    ClosePositionCert,
+    Balance<CoinTypeA>,
+    Balance<CoinTypeB>,
+    Balance<CoinTypeA>,
+    Balance<CoinTypeB>,
+){
+    abort 1
+}
 /// Closes a position and returns all underlying tokens and fees.
 ///
 /// This function completely closes a position, removing all liquidity
