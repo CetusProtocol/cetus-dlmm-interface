@@ -1158,6 +1158,16 @@ public fun refresh_position_info<CoinTypeA, CoinTypeB>(
     abort 1
 }
 
+public fun refresh_position_info_v2<CoinTypeA, CoinTypeB>(
+    pool: &mut Pool<CoinTypeA, CoinTypeB>,
+    position_id: ID,
+    mut expected_active_id: Option<I32>,
+    versioned: &Versioned,
+    clk: &Clock,
+    ctx: &TxContext,
+): PositionDetail {
+  abort 1
+}
 /// Collects accumulated fees from a position.
 ///
 /// This function extracts the accumulated fees from a position and returns
