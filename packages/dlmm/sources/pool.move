@@ -4,23 +4,32 @@
 ///
 /// This module provides the core pool functionality for the Cetus DLMM (Dynamic Liquidity Market Maker) protocol.
 /// It handles liquidity management, swaps, position operations, and reward distribution.
-#[allow(unused_variable, unused_function, unused_const,unused_type_parameter, unused_let_mut, unused_field)]
+#[
+    allow(
+        unused_variable,
+        unused_function,
+        unused_const,
+        unused_type_parameter,
+        unused_let_mut,
+        unused_field,
+    ),
+]
 module cetusdlmm::pool;
 
 use cetusdlmm::bin::{Self, BinManager, Bin, BinGroupRef};
 use cetusdlmm::config::GlobalConfig;
-use cetusdlmm::parameters::{VariableParameters};
+use cetusdlmm::parameters::VariableParameters;
 use cetusdlmm::partner::Partner;
 use cetusdlmm::position::{PositionManager, Position, ClosePositionCert, PositionInfo};
-use cetusdlmm::reward::{RewardManager};
+use cetusdlmm::reward::RewardManager;
 use cetusdlmm::versioned::Versioned;
-use integer_mate::i32::{I32};
+use integer_mate::i32::I32;
 use std::string::String;
-use std::type_name::{TypeName};
-use sui::balance::{Balance};
+use std::type_name::TypeName;
+use sui::balance::Balance;
 use sui::clock::Clock;
 use sui::coin::Coin;
-use sui::vec_map::{VecMap};
+use sui::vec_map::VecMap;
 
 /// ## Error Codes
 ///
@@ -719,7 +728,6 @@ public fun add_group_if_absent<CoinTypeA, CoinTypeB>(
     abort 1
 }
 
-
 /// Updates the base fee rate for the pool.
 ///
 /// ## Parameters
@@ -1105,9 +1113,10 @@ public fun remove_full_range_liquidity_by_percent<CoinTypeA, CoinTypeB>(
     versioned: &Versioned,
     clk: &Clock,
     ctx: &TxContext,
-): (Balance<CoinTypeA>, Balance<CoinTypeB>){
+): (Balance<CoinTypeA>, Balance<CoinTypeB>) {
     abort 1
 }
+
 /// Updates fee and reward tracking for a position.
 ///
 /// This function updates the accumulated fees and rewards for a position
@@ -1151,6 +1160,35 @@ public fun update_position_fee_and_rewards<CoinTypeA, CoinTypeB>(
 public fun refresh_position_info<CoinTypeA, CoinTypeB>(
     pool: &mut Pool<CoinTypeA, CoinTypeB>,
     position_id: ID,
+    versioned: &Versioned,
+    clk: &Clock,
+    ctx: &TxContext,
+): PositionDetail {
+    abort 1
+}
+
+/// Refreshes the position info and returns the position detail.
+///
+/// This function refreshes the position info and returns the position detail, and the amounts are calculated based on the expected active ID.
+/// 
+/// ## Type Parameters
+/// - `CoinTypeA`: First token type in the pool
+/// - `CoinTypeB`: Second token type in the pool
+///
+/// ## Parameters
+/// - `pool`: Mutable reference to the pool
+/// - `position_id`: ID of the position to refresh
+/// - `expected_active_id`: Expected active bin ID
+/// - `versioned`: Versioned object for compatibility check
+/// - `clk`: Clock for timestamp tracking
+/// - `ctx`: Transaction context
+///
+/// ## Returns
+/// - `PositionDetail`: Position detail
+public fun refresh_position_info_v2<CoinTypeA, CoinTypeB>(
+    pool: &mut Pool<CoinTypeA, CoinTypeB>,
+    position_id: ID,
+    mut expected_active_id: Option<I32>,
     versioned: &Versioned,
     clk: &Clock,
     ctx: &TxContext,
@@ -1262,9 +1300,10 @@ public fun close_position_with_fee<CoinTypeA, CoinTypeB>(
     Balance<CoinTypeB>,
     Balance<CoinTypeA>,
     Balance<CoinTypeB>,
-){
+) {
     abort 1
 }
+
 /// Closes a position and returns all underlying tokens and fees.
 ///
 /// This function completely closes a position, removing all liquidity
@@ -1473,7 +1512,6 @@ public fun repay_flash_swap_with_partner<CoinTypeA, CoinTypeB>(
     abort 1
 }
 
-
 /// Collects accumulated protocol fees from the pool.
 ///
 /// This function allows protocol fee managers to collect accumulated
@@ -1644,7 +1682,6 @@ public fun get_position_amounts<CoinTypeA, CoinTypeB>(
 ): (u64, u64) {
     abort 1
 }
-
 
 /// Gets the current variable fee rate for the pool.
 ///

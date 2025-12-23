@@ -47,7 +47,7 @@ module cetusdlmm::versioned;
 ///
 /// This constant defines the current supported version of the DLMM protocol.
 /// All versioned objects should be at or below this version.
-const VERSION: u64 = 1;
+const VERSION: u64 = 7;
 /// Main version tracking object.
 ///
 /// This struct tracks the version of a component in the DLMM protocol.
