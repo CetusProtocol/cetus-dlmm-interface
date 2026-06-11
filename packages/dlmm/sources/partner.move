@@ -11,7 +11,7 @@ use cetusdlmm::versioned::Versioned;
 use std::string::{String};
 use sui::bag::{Bag};
 use sui::coin::Coin;
-use sui::vec_map::{VecMap};
+use sui::vec_map::{Self, VecMap};
 
 /// ## Error Codes
 ///
