@@ -44,7 +44,7 @@ Add the following dependencies to your `Move.toml`:
 
 ```toml
 [dependencies]
-cetusdlmm = { git = "https://github.com/CetusProtocol/cetus-dlmm-interface.git", subdir = "packages/dlmm", rev = "mainnet-v0.5.0", override = true }
+cetusdlmm = { git = "https://github.com/CetusProtocol/cetus-dlmm-interface.git", subdir = "packages/dlmm", rev = "mainnet-v0.10.0", override = true }
 integer_mate = { git = "https://github.com/CetusProtocol/integer-mate.git", rev = "mainnet-v1.3.0", override = true }
 move_stl = { git = "https://github.com/CetusProtocol/move-stl.git", rev = "mainnet-v1.3.0", override = true }
 ```

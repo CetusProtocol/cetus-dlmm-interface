@@ -47,7 +47,7 @@ module cetusdlmm::versioned;
 ///
 /// This constant defines the current supported version of the DLMM protocol.
 /// All versioned objects should be at or below this version.
-const VERSION: u64 = 9;
+const VERSION: u64 = 10;
 /// Main version tracking object.
 ///
 /// This struct tracks the version of a component in the DLMM protocol.
@@ -59,4 +59,16 @@ const VERSION: u64 = 9;
 public struct Versioned has key, store {
     id: object::UID,
     version: u64,
+}
+
+/// Event emitted when the versioned object is upgraded.
+///
+/// ## Fields
+/// - `versioned`: ID of the upgraded versioned object
+/// - `old_version`: Version before the upgrade
+/// - `new_version`: Version after the upgrade
+public struct UpgradeEvent has copy, drop {
+    versioned: object::ID,
+    old_version: u64,
+    new_version: u64,
 }

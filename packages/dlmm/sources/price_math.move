@@ -18,6 +18,10 @@ use integer_mate::i32::{Self, I32};
 const EPriceMathExponentialOverflow: vector<u8> = b"Exponent exceeds maximum allowed";
 #[error]
 const EPriceMathResultIsZero: vector<u8> = b"Result is zero (division by zero or overflow)";
+#[error]
+const EPriceMathV2Overflow: vector<u8> = b"Price V2 overflows Q64x64";
+#[error]
+const EPriceMathV2Underflow: vector<u8> = b"Price V2 underflows Q64x64";
 
 /// Scale offset for Q64x64 fixed-point arithmetic.
 ///
@@ -30,6 +34,14 @@ const SCALE_OFFSET: u8 = 64;
 /// This represents the value 1.0 in the Q64x64 format,
 /// which is 2^64 (1 shifted left by 64 bits).
 const ONE: u128 = 1u128 << SCALE_OFFSET;
+
+/// Minimum accepted raw Q64.64 price for V2.
+///
+/// A stored group price can lose up to roughly 16 raw units across the V2 pow
+/// and the 15-step floored group recurrence. Requiring at least 16,000,000
+/// keeps that accumulated loss within 1e-6 relative error, two orders of
+/// magnitude below the narrowest supported bin spacing (1e-4 at bin_step=1).
+const MIN_PRICE_Q64_V2: u128 = 16_000_000;
 // When smallest bin is used (1 bps), the maximum of bin limit is 887272 (Check: https://docs.traderjoexyz.com/concepts/bin-math).
 // But in solana, the token amount is represented in 64 bits, therefore, it will be (1 + 0.0001)^n < 2 ** 64, solve for n, n ~= 443636
 // Then we calculate bits needed to represent 443636 exponential, 2^n >= 443636, ~= 19
@@ -268,6 +280,55 @@ public fun pow(base: u128, exp: I32): u128 {
     result
 }
 
+/// Q64.64 binary exponentiation without the legacy reciprocal/saturation path.
+///
+/// This API is deliberately separate from `pow` so existing callers retain
+/// their current behavior until they explicitly migrate.
+public fun pow_v2(base: u128, exp: I32): u128 {
+    if (exp.as_u32() == 0 || base == ONE) {
+        return ONE
+    };
+
+    let mut exponent = if (exp.is_neg()) { exp.abs().as_u32() } else { exp.as_u32() };
+    assert!(exponent < MAX_EXPONENTIAL, EPriceMathExponentialOverflow);
+
+    // Evaluate negative exponents directly in the reciprocal domain. This
+    // avoids requiring base^abs(exp) to be representable first.
+    let mut factor = if (exp.is_neg()) { reciprocal_q64_v2(base) } else { base };
+    let mut result = ONE;
+    while (exponent > 0) {
+        if (exponent & 1 > 0) {
+            result = mul_q64_v2(result, factor);
+        };
+        exponent = exponent >> 1;
+        if (exponent > 0) {
+            factor = mul_q64_v2(factor, factor);
+        };
+    };
+
+    // Reject prices whose Q64.64 precision is too low for the stored group
+    // recurrence to preserve the protocol's monotonic-price invariant.
+    assert!(result >= MIN_PRICE_Q64_V2, EPriceMathV2Underflow);
+    result
+}
+
+/// Multiplies two Q64.64 values with floor rounding and checked range.
+fun mul_q64_v2(a: u128, b: u128): u128 {
+    let value = full_math_u128::full_mul(a, b) >> SCALE_OFFSET;
+    assert!(value <= std::u128::max_value!() as u256, EPriceMathV2Overflow);
+    assert!(value > 0, EPriceMathV2Underflow);
+    value as u128
+}
+
+/// Returns floor(ONE * ONE / value) in Q64.64 form.
+fun reciprocal_q64_v2(value: u128): u128 {
+    assert!(value > 0, EPriceMathV2Underflow);
+    let inverse = full_math_u128::full_mul(ONE, ONE) / (value as u256);
+    assert!(inverse <= std::u128::max_value!() as u256, EPriceMathV2Overflow);
+    assert!(inverse > 0, EPriceMathV2Underflow);
+    inverse as u128
+}
+
 /// Calculates the price from a bin ID and bin step.
 ///
 /// This function converts a bin ID to its corresponding price using the
@@ -299,8 +360,21 @@ public fun get_price_from_id(active_id: I32, bin_step: u16): u128 {
     pow(base, active_id)
 }
 
+/// V2 price calculation. Existing callers continue using get_price_from_id.
+public fun get_price_from_id_v2(active_id: I32, bin_step: u16): u128 {
+    let bps = ((bin_step as u128) << SCALE_OFFSET) / 10000;
+    pow_v2(ONE + bps, active_id)
+}
+
 #[test]
 fun test_pow() {
     let p = pow(1<<64, i32::from(1));
     std::debug::print(&p);
+}
+
+#[test]
+fun test_price_math_v2() {
+    assert!(get_price_from_id_v2(i32::from(0), 1) == ONE, 0);
+    assert!(get_price_from_id_v2(i32::from(34), 1) == 18509566600265334101, 1);
+    assert!(get_price_from_id_v2(i32::neg_from(34), 1) == 18384134770398163993, 2);
 }
