@@ -533,6 +533,16 @@ public struct CollectProtocolFeeEvent has copy, drop {
     fee_b: u64,
 }
 
+/// Event emitted when a protocol fee collection capability is minted.
+///
+/// ## Fields
+/// - `recipient`: Address receiving the capability
+/// - `protocol_fee_collect_cap_id`: ID of the minted capability
+public struct MintProtocolFeeCollectCapEvent has copy, drop {
+    recipient: address,
+    protocol_fee_collect_cap_id: ID,
+}
+
 /// Event emitted when fees are collected from a position.
 ///
 /// ## Fields
@@ -597,6 +607,16 @@ public struct UpdatePermissionsEvent has copy, drop {
     pool: ID,
     old_permissions: Permissions,
     new_permissions: Permissions,
+}
+
+/// Event emitted when a pool manager removes an empty bin group.
+///
+/// ## Fields
+/// - `pool`: ID of the pool where the group was removed
+/// - `group_index`: Index of the removed group
+public struct RemoveEmptyBinGroupEvent has copy, drop {
+    pool: ID,
+    group_index: u64,
 }
 
 /// Event emitted when a reward is made public.
@@ -682,6 +702,25 @@ public fun borrow_bin<CoinTypeA, CoinTypeB>(pool: &Pool<CoinTypeA, CoinTypeB>, b
     abort 1
 }
 
+/// Returns the price a bin will use for pool accounting. This reads an existing
+/// group's stored price, or predicts a missing group with its initialization
+/// algorithm without mutating the pool.
+public fun effective_bin_price<CoinTypeA, CoinTypeB>(
+    pool: &Pool<CoinTypeA, CoinTypeB>,
+    bin_id: I32,
+): u128 {
+    abort 1
+}
+
+/// Batch form of effective_bin_price for a contiguous bin range.
+public fun effective_bin_prices<CoinTypeA, CoinTypeB>(
+    pool: &Pool<CoinTypeA, CoinTypeB>,
+    min_bin_id: I32,
+    max_bin_id: I32,
+): vector<u128> {
+    abort 1
+}
+
 /// Checks if a group exists in the pool.
 ///
 /// ## Parameters
@@ -725,6 +764,30 @@ public fun add_group_if_absent<CoinTypeA, CoinTypeB>(
     group_index: u64,
     versioned: &Versioned,
 ): &mut BinGroupRef {
+    abort 1
+}
+
+/// Removes an empty bin group from the pool.
+///
+/// This maintenance operation is restricted to pool managers. It is idempotent:
+/// if the group does not exist, the function returns without emitting an event.
+///
+/// ## Parameters
+/// - `pool`: Mutable reference to the pool
+/// - `group_index`: Index of the group to remove
+/// - `config`: Global configuration for role checking
+/// - `versioned`: Versioned object for compatibility checking
+/// - `ctx`: Transaction context
+///
+/// ## Events Emitted
+/// - `RemoveEmptyBinGroupEvent`: Contains the pool ID and removed group index
+public fun remove_empty_bin_group<CoinTypeA, CoinTypeB>(
+    pool: &mut Pool<CoinTypeA, CoinTypeB>,
+    group_index: u64,
+    config: &GlobalConfig,
+    versioned: &Versioned,
+    ctx: &TxContext,
+) {
     abort 1
 }
 

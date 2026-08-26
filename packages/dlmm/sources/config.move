@@ -159,6 +159,30 @@ public struct BinStepConfig has copy, drop, store {
     protocol_fee_rate: u64,
 }
 
+/// Emitted when the protocol enters the global emergency pause state.
+///
+/// ## Fields
+/// - `versioned`: ID of the versioned object used as the global kill switch
+/// - `old_version`: Version before the pause
+/// - `new_version`: Emergency pause sentinel version
+public struct EmergencyPauseEvent has copy, drop {
+    versioned: ID,
+    old_version: u64,
+    new_version: u64,
+}
+
+/// Emitted when the protocol leaves the global emergency pause state.
+///
+/// ## Fields
+/// - `versioned`: ID of the versioned object used as the global kill switch
+/// - `old_version`: Emergency pause sentinel version
+/// - `new_version`: Restored package version
+public struct EmergencyUnpauseEvent has copy, drop {
+    versioned: ID,
+    old_version: u64,
+    new_version: u64,
+}
+
 /// Checks if a member has the reward manager role.
 ///
 /// ## Parameters
