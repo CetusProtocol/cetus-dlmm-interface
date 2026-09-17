@@ -7,3 +7,10 @@ chain-id = "35834a8a"
 published-at = "0x6b989f9b05bd11a00f1c7779443d66802c5e71631f59e87be5d2a616991f151e"
 original-id = "0x5664f9d3fd82c84023870cfbda8ea84e14c8dd56ce557ad2116e0668581a682b"
 version = 10
+upgrade-capability = "0x883a59d1e4d83e3628042d694087de8c1d252a387d02283766b7abc1d49ab985"
+
+[published.testnet]
+chain-id = "4c78adac"
+published-at = "0x2a926d70295d53e2408940a1e490272f4da090a62bd4474015aae7f4dc76135c"
+original-id = "0xb382224d12558da5f87624765065a8c7e8f5c899d0ee890610e2bb4e8c686be9"
+version = 5
