@@ -44,19 +44,10 @@ Add the following dependencies to your `Move.toml`:
 
 ```toml
 [dependencies]
-CetusDlmm = { git = "https://github.com/CetusProtocol/cetus-dlmm-interface.git", subdir = "packages/dlmm", rev = "mainnet-v0.10.0", override = true }
-IntegerMate = { git = "https://github.com/CetusProtocol/integer-mate.git", rev = "mainnet-v1.3.0", override = true }
-MoveSTL = { git = "https://github.com/CetusProtocol/move-stl.git", rev = "mainnet-v1.3.0", override = true }
+cetusdlmm = { git = "https://github.com/CetusProtocol/cetus-dlmm-interface.git", subdir = "packages/dlmm", rev = "mainnet-v0.10.0" }
 ```
 
-### Address Configuration
-
-Configure the package address in your `Move.toml`:
-
-```toml
-[addresses]
-cetusdlmm = "0x0"  # Replace with actual deployed address
-```
+The package uses Sui's modern package system. Published addresses are resolved from `Published.toml`; no `[addresses]` section is required.
 
 ## Development
 

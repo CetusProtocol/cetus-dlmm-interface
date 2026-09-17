@@ -1,0 +1,7 @@
+[package]
+name = "dlmmrouter"
+edition = "2024"
+
+[dependencies]
+cetusdlmm = { local = "../dlmm" }
+integer_mate = { git = "https://github.com/CetusProtocol/integer-mate.git", rev = "09a12d9b171122883d9350039d4ed6e8400033b9" }

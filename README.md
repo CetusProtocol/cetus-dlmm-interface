@@ -2,6 +2,8 @@
 
 A sophisticated Dynamic Liquidity Market Maker protocol built on Sui blockchain, providing efficient liquidity management, automated market making, and reward distribution for decentralized exchanges.
 
+This repository provides Move interface packages for the core DLMM contract in `packages/dlmm` and the router contract in `packages/dlmm-router`.
+
 ## Overview
 
 Cetus DLMM is an advanced AMM protocol that dynamically adjusts liquidity distribution based on market conditions. It features:
@@ -44,19 +46,10 @@ Add the following dependencies to your `Move.toml`:
 
 ```toml
 [dependencies]
-cetusdlmm = { git = "https://github.com/CetusProtocol/cetus-dlmm-interface.git", subdir = "packages/dlmm", rev = "mainnet-v0.10.0", override = true }
-integer_mate = { git = "https://github.com/CetusProtocol/integer-mate.git", rev = "mainnet-v1.3.0", override = true }
-move_stl = { git = "https://github.com/CetusProtocol/move-stl.git", rev = "mainnet-v1.3.0", override = true }
+cetusdlmm = { git = "https://github.com/CetusProtocol/cetus-dlmm-interface.git", subdir = "packages/dlmm", rev = "mainnet-v0.10.0" }
 ```
 
-### Address Configuration
-
-Configure the package address in your `Move.toml`:
-
-```toml
-[addresses]
-cetusdlmm = "0x0"  # Replace with actual deployed address
-```
+The package uses Sui's modern package system. Published addresses are resolved from `Published.toml`; no `[addresses]` section is required.
 
 ## Development
 
